@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bubble Animation</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+
+      .bubble {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #3498db;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      document.addEventListener("click", function (e) {
+        createBubble(e.pageX, e.pageY);
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.code === "Space") {
+          createBubble(
+            Math.random() * window.innerWidth,
+            Math.random() * window.innerHeight
+          );
+        }
+      });
+
+      function createBubble(x, y) {
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+        document.body.appendChild(bubble);
+
+        bubble.style.left = x - bubble.offsetWidth / 2 + "px";
+        bubble.style.top = y - bubble.offsetHeight / 2 + "px";
+
+        let size = 20;
+        const interval = setInterval(function () {
+          size += 2;
+          bubble.style.width = size + "px";
+          bubble.style.height = size + "px";
+
+          if (size >= 60) {
+            clearInterval(interval);
+            fadeOutAndRemove(bubble);
+          }
+        }, 20);
+      }
+
+      function fadeOutAndRemove(element) {
+        let opacity = 0.7;
+        const fadeInterval = setInterval(function () {
+          opacity -= 0.02;
+          element.style.opacity = opacity;
+
+          if (opacity <= 0) {
+            clearInterval(fadeInterval);
+            element.parentNode.removeChild(element);
+          }
+        }, 20);
+      }
+    </script>
+  </body>
+</html>
